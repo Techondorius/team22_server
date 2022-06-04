@@ -1,7 +1,6 @@
 import sys
 sys.dont_write_bytecode = True
 
-from model import Event
 from fastapi import FastAPI
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
