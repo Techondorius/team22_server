@@ -11,7 +11,9 @@ async def events_list(db: Session = Depends(get_db)):
     for i in events_list:
         model = i.toResultJSON()
         output.append(model)
-    return output
+    return {
+        "events": output
+    }
 
 @router.get('/api/events/{event_id}')
 async def event_detail(
