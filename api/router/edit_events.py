@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, Response
+from schema.delete_key import DeleteKey
 from schema.update_event import UpdateEventSchema
 from schema.create_event import CreateEventSchema
 from db import get_db
@@ -40,13 +41,13 @@ async def update_event(
 @router.put("/api/events/{event_id}/delete")
 async def delete_event(
     event_id: int,
-    delete_key: str,
+    key: DeleteKey,
     db: Session = Depends(get_db)
 ):
     model: Event = db.query(Event).get(event_id)
     if model is None:
         raise HTTPException(status_code=404)
-    if model.delete_key != delete_key:
+    if model.delete_key != key.delete_key:
         raise HTTPException(status_code=404)
     db.delete(model)
     db.commit()
