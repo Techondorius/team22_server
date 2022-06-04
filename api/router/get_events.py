@@ -1,31 +1,23 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends, HTTPException
+from model.event import Event
+from db import engine, SessionLocal
+from sqlalchemy.orm import Session, sessionmaker
+from starlette.requests import Request
 
 router = APIRouter()
 
+def get_db(request: Request):
+    return request.state.db
+
 @router.get('/api/events')
-async def index():
-    return {
-        'events': [
-            {
-                'id': 1,
-                'title': '技育CAMP',
-                'owner': 'サポーターズ',
-                'date': '2022-06-05 15:00:00'
-            },
-            {
-                'id': 2,
-                'title': '技育展',
-                'owner': 'サポーターズ',
-                'date': '2022-10-13 15:00:00'
-            }
-        ]
-    }
+async def index(db: Session = Depends(get_db)):
+    events_list = db.query(Event).all()
+    return events_list
 
 @router.get('/api/events/{event_id}')
-async def index(event_id: int):
-    return {
-                'id': 2,
-                'title': '技育展',
-                'owner': 'サポーターズ',
-                'date': '2022-10-13 15:00:00'
-            }
+async def index(event_id: int, db: Session = Depends(get_db)):
+    event_list = db.query(Event).filter(Event.id == event_id).first()
+    if event_list is None:
+        raise HTTPException(status_code=404, detail="item_not_found")
+    else:
+        return event_list
