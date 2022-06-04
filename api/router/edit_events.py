@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Response
 from schema.update_event import UpdateEventSchema
 from schema.create_event import CreateEventSchema
 from db import get_db
@@ -35,3 +35,19 @@ async def update_event(
     db.add(model)
     db.commit()
     return model.toResultJSON()
+
+
+@router.put("/api/events/{event_id}/delete")
+async def update_event(
+    event_id: int,
+    delete_key: str,
+    db: Session = Depends(get_db)
+):
+    model: Event = db.query(Event).get(event_id)
+    if model is None:
+        raise HTTPException(status_code=404)
+    if model.delete_key != delete_key:
+        raise HTTPException(status_code=404)
+    db.delete(model)
+    db.commit()
+    return Response(status_code=204)
