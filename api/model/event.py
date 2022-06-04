@@ -24,3 +24,13 @@ class Event(Base):
         TIMESTAMP,
         default=current_timestamp(),
         nullable=False)
+
+    def toResultJSON(self):
+        return{
+            "id": self.id,
+            "title": self.title,
+            "owner": self.owner,
+            "date": self.date,
+            "note": self.note,
+            "url": self.url
+        }

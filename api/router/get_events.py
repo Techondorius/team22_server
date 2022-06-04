@@ -1,14 +1,10 @@
 from fastapi import APIRouter, Depends, HTTPException
 from model.event import Event
-from db import engine, SessionLocal
+from db import engine, SessionLocal, get_db
 from sqlalchemy.orm import Session, sessionmaker
 from starlette.requests import Request
 
 router = APIRouter()
-
-def get_db(request: Request):
-    return request.state.db
-
 @router.get('/api/events')
 async def index(db: Session = Depends(get_db)):
     events_list = db.query(Event).all()

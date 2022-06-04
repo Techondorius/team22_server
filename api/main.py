@@ -7,15 +7,17 @@ from router import get_events
 from router_sample import get_events_test
 from starlette.requests import Request
 from db import SessionLocal
+from pydantic import ValidationError
+from fastapi.exceptions import RequestValidationError
+from fastapi.responses import JSONResponse
+from router import get_events, edit_events
 
 app = FastAPI()
 
-app.include_router(get_events.router)
-app.include_router(get_events_test.router)
+@app.exception_handler(RequestValidationError)
+async def request_validation_handler(req, exc):
+    return JSONResponse(status_code=400, content={"code": "InvalidParameter"})
 
-@app.middleware("http")
-async def db_session_middleware(request: Request, call_next):
-    request.state.db = SessionLocal()
-    response = await call_next(request)
-    request.state.db.close()
-    return response
+app.include_router(get_events.router)
+app.include_router(edit_events.router)
+
