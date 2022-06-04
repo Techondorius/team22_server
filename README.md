@@ -6,7 +6,3 @@
 
 - [API ドキュメント](./doc/api/api.md)
 - [DB ドキュメント](./doc/db/db.md)
-
-# DB
-
-![er図](./doc/data/db.png)
