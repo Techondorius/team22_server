@@ -194,3 +194,73 @@ PUT /api/events/{event_id}
 #### id と delete_key の組み合わせが合わない時
 
 401 Unauthorized
+
+## イベントキー確認 API
+
+編集前のプレチェック等に使用
+
+```
+PUT /api/events/{event_id}/check_key
+```
+
+| param      | type   | description |
+| ---------- | ------ | ----------- |
+| delete_key | string | 削除キー    |
+
+```javascript
+{
+    "delete_key": string,
+}
+```
+
+### レスポンス
+
+#### 成功時
+
+200 OK
+
+### 失敗時
+
+#### id が存在しない時
+
+404 NotFound
+
+#### id と delete_key の組み合わせが合わない時
+
+401 Unauthorized
+
+## イベント削除 API
+
+### リクエスト
+
+```
+
+PUT /api/events/{event_id}/delete
+
+```
+
+| param      | type   | description |
+| ---------- | ------ | ----------- |
+| delete_key | string | 削除キー    |
+
+```javascript
+{
+    "delete_key": string,
+}
+```
+
+### レスポンス
+
+#### 成功時
+
+204 NoContent
+
+### 失敗時
+
+#### id が存在しない時
+
+404 NotFound
+
+#### id と delete_key の組み合わせが合わない時
+
+401 Unauthorized
