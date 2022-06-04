@@ -38,7 +38,7 @@ async def update_event(
 
 
 @router.put("/api/events/{event_id}/delete")
-async def update_event(
+async def delete_event(
     event_id: int,
     delete_key: str,
     db: Session = Depends(get_db)
