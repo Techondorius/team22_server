@@ -1,8 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from model.event import Event
-from db import engine, SessionLocal, get_db
-from sqlalchemy.orm import Session, sessionmaker
-from starlette.requests import Request
+from db import get_db
+from sqlalchemy.orm import Session
 
 router = APIRouter()
 @router.get('/api/events')
