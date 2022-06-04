@@ -4,7 +4,7 @@ sys.dont_write_bytecode = True
 from fastapi import FastAPI
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
-from router import get_events, edit_events
+from router import get_events, edit_events, utils
 
 app = FastAPI()
 
@@ -14,4 +14,5 @@ async def request_validation_handler(req, exc):
 
 app.include_router(get_events.router)
 app.include_router(edit_events.router)
+app.include_router(utils.router)
 
