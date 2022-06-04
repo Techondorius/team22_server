@@ -10,6 +10,8 @@ async def events_list(db: Session = Depends(get_db)):
     output = []
     for i in events_list:
         model = i.toResultJSON()
+        model.pop('note')
+        model.pop('url')
         output.append(model)
     return {
         "events": output
