@@ -15,3 +15,4 @@ async def create_event(
     db.add(model)
     db.commit()
     db.refresh(model)
+    return model.toResultJSON()
