@@ -5,6 +5,8 @@ from db import get_db
 from sqlalchemy.orm import Session
 
 router = APIRouter()
+
+
 @router.get('/api/events')
 async def events_list(db: Session = Depends(get_db)):
     events_list = db.query(Event).filter(Event.date > datetime.now()).all()
