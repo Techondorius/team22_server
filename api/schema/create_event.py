@@ -1,4 +1,5 @@
 import datetime
+from typing import Optional
 from db import idgen
 from model import Event
 from pydantic import BaseModel
@@ -8,8 +9,8 @@ class CreateEventSchema(BaseModel):
     title: str
     owner: str
     date: datetime.datetime
-    note: str
-    url: str
+    note: Optional[str] = None
+    url: Optional[str] = None
     delete_key: str
 
     def toSqlModel(self) -> Event:
